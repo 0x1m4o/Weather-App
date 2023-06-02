@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/data/exceptions/weather_exception.dart';
 import 'package:weather_app/models/direct_geocoding.dart';
+import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/services/http_error_handler.dart';
 import '../data/constants/constants.dart';
 
@@ -42,6 +43,35 @@ class WeatherApiService {
 
       return directGeocoding;
     } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<Weather> getWeather(DirectGeocoding directGeocoding) async {
+    Uri uri = Uri(
+        scheme: 'https',
+        host: kApiHost,
+        path: '/data/2.5/weather',
+        queryParameters: {
+          'lat': directGeocoding.lat,
+          'lon': directGeocoding.lon,
+          'units': kUnit,
+          'appid': dotenv.env['APPID']
+        });
+
+    try {
+      final http.Response httpResponse = await httpClient.get(uri);
+
+      if (httpResponse != 200) {
+        throw Exception(httpErrorHandler(httpResponse));
+      }
+
+      final weatherJson = json.decode(httpResponse.body);
+
+      final Weather weather = Weather.fromJson(weatherJson);
+
+      return weather;
+    } catch (e) {
       rethrow;
     }
   }
