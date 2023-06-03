@@ -23,8 +23,6 @@ class WeatherRepository {
       final Weather weather = tempWeather.copyWith(
           name: directGeocoding.name, country: directGeocoding.country);
 
-      print('Weather : $weather');
-
       return weather;
     } on WeatherException catch (e) {
       throw CustomError(errMsg: e.message);
