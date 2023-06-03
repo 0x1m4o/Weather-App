@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:equatable/equatable.dart';
 
 class Weather extends Equatable {
@@ -61,5 +62,30 @@ class Weather extends Equatable {
   }
 
   @override
-  bool get stringify => true;
+  String toString() {
+    return 'Weather(description: $description, icon: $icon, temp: $temp, tempMin: $tempMin, tempMax: $tempMax, name: $name, country: $country, lastUpdated: $lastUpdated)';
+  }
+  
+
+  Weather copyWith({
+    String? description,
+    String? icon,
+    String? name,
+    String? country,
+    double? temp,
+    double? tempMin,
+    double? tempMax,
+    DateTime? lastUpdated,
+  }) {
+    return Weather(
+      description: description ?? this.description,
+      icon: icon ?? this.icon,
+      name: name ?? this.name,
+      country: country ?? this.country,
+      temp: temp ?? this.temp,
+      tempMin: tempMin ?? this.tempMin,
+      tempMax: tempMax ?? this.tempMax,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+    );
+  }
 }

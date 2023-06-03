@@ -29,7 +29,7 @@ class WeatherApiService {
     try {
       // Create new variable to takes the HTTP Response.
       final http.Response httpResponse = await httpClient.get(uri);
-      if (httpResponse != 200) {
+      if (httpResponse.statusCode != 200) {
         throw httpErrorHandler(httpResponse);
       }
 
@@ -48,13 +48,13 @@ class WeatherApiService {
   }
 
   Future<Weather> getWeather(DirectGeocoding directGeocoding) async {
-    Uri uri = Uri(
+    final Uri uri = Uri(
         scheme: 'https',
         host: kApiHost,
         path: '/data/2.5/weather',
         queryParameters: {
-          'lat': directGeocoding.lat,
-          'lon': directGeocoding.lon,
+          'lat': '${directGeocoding.lat}',
+          'lon': '${directGeocoding.lon}',
           'units': kUnit,
           'appid': dotenv.env['APPID']
         });
@@ -62,7 +62,7 @@ class WeatherApiService {
     try {
       final http.Response httpResponse = await httpClient.get(uri);
 
-      if (httpResponse != 200) {
+      if (httpResponse.statusCode != 200) {
         throw Exception(httpErrorHandler(httpResponse));
       }
 

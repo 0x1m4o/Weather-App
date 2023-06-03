@@ -2,8 +2,8 @@ import 'package:equatable/equatable.dart';
 
 class DirectGeocoding extends Equatable {
   final String name;
-  final String lat;
-  final String lon;
+  final double lat;
+  final double lon;
   final String country;
 
   DirectGeocoding({
@@ -12,14 +12,6 @@ class DirectGeocoding extends Equatable {
     required this.lon,
     required this.country,
   });
-
-  @override
-  String toString() {
-    return 'DirectGeocoding(name: $name, lat: $lat, lon: $lon, country: $country)';
-  }
-
-  @override
-  List<Object> get props => [name, lat, lon, country];
 
   factory DirectGeocoding.fromJson(List<dynamic> json) {
     final Map<String, dynamic> data = json[0];
@@ -30,4 +22,12 @@ class DirectGeocoding extends Equatable {
         lon: data['lon'],
         country: data['country']);
   }
+
+  @override
+  String toString() {
+    return 'DirectGeocoding(name: $name, lat: $lat, lon: $lon, country: $country)';
+  }
+
+  @override
+  List<Object> get props => [name, lat, lon, country];
 }
