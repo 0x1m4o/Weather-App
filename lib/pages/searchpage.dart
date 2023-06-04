@@ -25,8 +25,15 @@ class _SearchPageState extends State<SearchPage> {
     if (context.read<SearchCubit>().state.searchTerm.isNotEmpty) {
       editingController.text = context.read<SearchCubit>().state.searchTerm;
     }
-
+    _fetchCity();
     super.initState();
+  }
+
+  _fetchCity() async {
+    List<City> allCities = await CityRepository(
+            cityService: CityService(httpClient: http.Client()))
+        .fetchAllCity();
+    context.read<CityCubit>().fetchAllCity(allCities);
   }
 
   Widget build(BuildContext context) {
@@ -46,7 +53,8 @@ class _SearchPageState extends State<SearchPage> {
         body: allCity.isEmpty
             ? Center(
                 child: CircularProgressIndicator(
-                  color: Colors.black,
+                  color: Colors.white,
+                  backgroundColor: Colors.black,
                 ),
               )
             : Column(
@@ -93,11 +101,9 @@ class _SearchPageState extends State<SearchPage> {
                                             .read<WeatherCubit>()
                                             .fetchData(
                                                 filteredCities[index].cityName);
-                                    Navigator.push(context, MaterialPageRoute(
-                                      builder: (context) {
-                                        return HomePage();
-                                      },
-                                    ));
+                                    Navigator.pushNamed(context, '/home',
+                                        arguments:
+                                            filteredCities[index].country);
                                   },
                                   title: Text(filteredCities.isEmpty
                                       ? allCity[index].cityName

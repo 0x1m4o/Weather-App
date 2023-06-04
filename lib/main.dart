@@ -3,10 +3,12 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/cubits/city/city_cubit.dart';
 import 'package:weather_app/cubits/search/search_cubit.dart';
+import 'package:weather_app/cubits/theme/theme_cubit.dart';
 import 'package:weather_app/cubits/weather/weather_cubit.dart';
 import 'package:weather_app/pages/homepage.dart';
 import 'package:weather_app/repository/city_repository.dart';
 import 'package:weather_app/repository/weather_repository.dart';
+import 'package:weather_app/routes/pages_app.dart';
 import 'package:weather_app/services/city_api_service.dart';
 import 'package:weather_app/services/weather_api_services.dart';
 import 'package:http/http.dart' as http;
@@ -47,8 +49,23 @@ class MyApp extends StatelessWidget {
             create: (context) =>
                 SearchCubit(cityCubit: context.read<CityCubit>()),
           ),
+          BlocProvider<ThemeCubit>(
+            lazy: true,
+            create: (context) =>
+                ThemeCubit(weatherCubit: context.read<WeatherCubit>()),
+          ),
         ],
-        child: MaterialApp(home: HomePage()),
+        child: BlocBuilder<ThemeCubit, ThemeState>(
+          builder: (context, state) {
+            return MaterialApp(
+              home: HomePage(),
+              routes: AppPages.routes,
+              theme: state.appTheme == AppTheme.light
+                  ? ThemeData.light()
+                  : ThemeData.dark(),
+            );
+          },
+        ),
       ),
     );
   }
