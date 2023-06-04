@@ -42,9 +42,12 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget showIcon(String icon) {
+    final String proxyUrl =
+        'https://weather-app-sable-iota.vercel.app/api/weather/icon-proxy';
+
     return FadeInImage.assetNetwork(
       placeholder: 'assets/gif/loading.gif',
-      image: 'http://$kIconHost/img/wn/$icon@4x.png',
+      image: '$proxyUrl?icon=$icon',
       width: 100,
       height: 100,
     );
@@ -125,7 +128,10 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Spacer(),
                   showIcon(state.weather.icon),
-                  Expanded(flex: 3, child: showDesc(state.weather.description)),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  showDesc(state.weather.description),
                   Spacer()
                 ],
               ),

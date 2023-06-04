@@ -9,6 +9,7 @@ import 'package:weather_app/pages/homepage.dart';
 import 'package:weather_app/repository/city_repository.dart';
 import 'package:weather_app/repository/weather_repository.dart';
 import 'package:weather_app/routes/pages_app.dart';
+import 'package:weather_app/routes/pages_name.dart';
 import 'package:weather_app/services/city_api_service.dart';
 import 'package:weather_app/services/weather_api_services.dart';
 import 'package:http/http.dart' as http;
@@ -59,6 +60,7 @@ class MyApp extends StatelessWidget {
           builder: (context, state) {
             return MaterialApp(
               home: HomePage(),
+              initialRoute: RouteName.home,
               routes: AppPages.routes,
               theme: state.appTheme == AppTheme.light
                   ? ThemeData.light()

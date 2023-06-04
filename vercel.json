@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/weather/icon/:icon",
+      "destination": "/api/weather/icon-proxy"
+    }
+  ]
+}
