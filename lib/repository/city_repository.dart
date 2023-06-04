@@ -14,8 +14,6 @@ class CityRepository {
     try {
       final List<City> allCity = await cityService.getAllCity();
 
-      print('allCity : $allCity');
-
       return allCity;
     } on WeatherException catch (e) {
       throw CustomError(errMsg: e.message);

@@ -11,9 +11,8 @@ class CityCubit extends Cubit<CityState> {
 
   CityCubit({required this.cityRepository}) : super(CityState.initial());
 
-  Future<void> fetchAllCity() async {
+  Future<void> fetchAllCity(List<City> allCity) async {
     try {
-      final List<City> allCity = await cityRepository.fetchAllCity();
       emit(state.copyWith(cityList: allCity));
     } catch (error) {
       CustomError(errMsg: error.toString());
