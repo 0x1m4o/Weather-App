@@ -41,18 +41,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget showIcon(String icon) {
-    final String proxyUrl =
-        'https://weather-app-sable-iota.vercel.app/api/weather/icon-proxy';
-
-    return FadeInImage.assetNetwork(
-      placeholder: 'assets/gif/loading.gif',
-      image: '$proxyUrl?icon=$icon',
-      width: 100,
-      height: 100,
-    );
-  }
-
   Widget _showWeather() {
     return BlocConsumer<WeatherCubit, WeatherState>(
       listener: (context, state) {
@@ -124,17 +112,10 @@ class _HomePageState extends State<HomePage> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40),
               ),
-              Row(
-                children: [
-                  Spacer(),
-                  showIcon(state.weather.icon),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  showDesc(state.weather.description),
-                  Spacer()
-                ],
+              SizedBox(
+                height: 20,
               ),
+              showDesc(state.weather.description),
               SizedBox(
                 height: 30,
               ),
