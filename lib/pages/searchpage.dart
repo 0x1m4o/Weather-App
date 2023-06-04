@@ -6,6 +6,7 @@ import 'package:weather_app/cubits/search/search_cubit.dart';
 import 'package:weather_app/cubits/weather/weather_cubit.dart';
 import 'package:weather_app/models/city.dart';
 import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/pages/homepage.dart';
 import 'package:weather_app/repository/city_repository.dart';
 import 'package:weather_app/services/city_api_service.dart';
 import 'package:http/http.dart' as http;
@@ -19,21 +20,14 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   TextEditingController editingController = TextEditingController();
-
   @override
   void initState() {
-    // context.read<CityCubit>().fetchAllCity();
+    if (context.read<SearchCubit>().state.searchTerm.isNotEmpty) {
+      editingController.text = context.read<SearchCubit>().state.searchTerm;
+    }
 
     super.initState();
   }
-
-  @override
-  void dispose() {
-    editingController.clear();
-    super.dispose();
-  }
-
-  void submit() {}
 
   Widget build(BuildContext context) {
     List<dynamic> allCity = context.watch<CityCubit>().state.cityList;
@@ -44,9 +38,8 @@ class _SearchPageState extends State<SearchPage> {
     }
     List<String> countryNames = uniqueCountries.toList();
 
-    var searchFilter = context.watch<SearchCubit>().state.searchTerm;
-
     List<City> filteredCities = context.watch<SearchCubit>().state.filteredCity;
+    var textFieldValue = editingController.text;
 
     return SafeArea(
       child: Scaffold(
@@ -78,35 +71,45 @@ class _SearchPageState extends State<SearchPage> {
                     ),
                   ),
                   Expanded(
-                    child: ListView.builder(
-                        itemCount: filteredCities.isEmpty
-                            ? allCity.length
-                            : filteredCities.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 1, horizontal: 4),
-                            child: Card(
-                              child: ListTile(
-                                onTap: () {
-                                  filteredCities.isEmpty
-                                      ? context
-                                          .read<WeatherCubit>()
-                                          .fetchData(allCity[index].cityName)
-                                      : context.read<WeatherCubit>().fetchData(
-                                          filteredCities[index].cityName);
-                                  Navigator.of(context).pop();
-                                },
-                                title: Text(filteredCities.isEmpty
-                                    ? allCity[index].cityName
-                                    : filteredCities[index].cityName),
-                                subtitle: Text(filteredCities.isEmpty
-                                    ? allCity[index].country
-                                    : filteredCities[index].country),
+                    child: ScrollConfiguration(
+                      behavior:
+                          const ScrollBehavior().copyWith(overscroll: false),
+                      child: ListView.builder(
+                          itemCount: filteredCities.isEmpty
+                              ? allCity.length
+                              : filteredCities.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(
+                                  vertical: 1, horizontal: 4),
+                              child: Card(
+                                child: ListTile(
+                                  onTap: () {
+                                    filteredCities.isEmpty
+                                        ? context
+                                            .read<WeatherCubit>()
+                                            .fetchData(allCity[index].cityName)
+                                        : context
+                                            .read<WeatherCubit>()
+                                            .fetchData(
+                                                filteredCities[index].cityName);
+                                    Navigator.push(context, MaterialPageRoute(
+                                      builder: (context) {
+                                        return HomePage();
+                                      },
+                                    ));
+                                  },
+                                  title: Text(filteredCities.isEmpty
+                                      ? allCity[index].cityName
+                                      : filteredCities[index].cityName),
+                                  subtitle: Text(filteredCities.isEmpty
+                                      ? allCity[index].country
+                                      : filteredCities[index].country),
+                                ),
                               ),
-                            ),
-                          );
-                        }),
+                            );
+                          }),
+                    ),
                   ),
                 ],
               ),

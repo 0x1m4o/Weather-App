@@ -43,6 +43,7 @@ class MyApp extends StatelessWidget {
                 CityCubit(cityRepository: context.read<CityRepository>()),
           ),
           BlocProvider<SearchCubit>(
+            lazy: true,
             create: (context) =>
                 SearchCubit(cityCubit: context.read<CityCubit>()),
           ),

@@ -20,7 +20,7 @@ class SearchCubit extends Cubit<SearchState> {
 
   void setFiltered(List<String> country, String searchTerm) {
     List<City> filteredCities;
-    if (state.searchTerm.isEmpty) {
+    if (searchTerm.isEmpty) {
       emit(state.copyWith(filteredCity: cityCubit.state.cityList));
     }
 
@@ -35,5 +35,10 @@ class SearchCubit extends Cubit<SearchState> {
         countryFilter: country,
         searchTerm: searchTerm,
         filteredCity: filteredCities));
+  }
+
+  @override
+  Future<void> close() {
+    return super.close();
   }
 }
