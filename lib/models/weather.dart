@@ -9,6 +9,7 @@ class Weather extends Equatable {
   final double temp;
   final double tempMin;
   final double tempMax;
+  final double windSpeed;
   final int humidity;
   final int pressure;
   final DateTime lastUpdated;
@@ -16,6 +17,7 @@ class Weather extends Equatable {
   factory Weather.fromJson(Map<String, dynamic> json) {
     final weather = json['weather'][0];
     final main = json['main'];
+    final wind = json['wind'];
 
     return Weather(
         description: weather['description'],
@@ -27,6 +29,7 @@ class Weather extends Equatable {
         tempMax: main['temp_max'],
         humidity: main['humidity'],
         pressure: main['pressure'],
+        windSpeed: wind['speed'],
         lastUpdated: DateTime.now());
   }
 
@@ -38,6 +41,7 @@ class Weather extends Equatable {
       temp: 100.0,
       tempMin: 100.0,
       tempMax: 100.0,
+      windSpeed: 100.0,
       humidity: 10,
       pressure: 10,
       lastUpdated: DateTime(1970));
@@ -50,6 +54,7 @@ class Weather extends Equatable {
     required this.temp,
     required this.tempMin,
     required this.tempMax,
+    required this.windSpeed,
     required this.humidity,
     required this.pressure,
     required this.lastUpdated,
@@ -65,6 +70,7 @@ class Weather extends Equatable {
       temp,
       tempMin,
       tempMax,
+      windSpeed,
       humidity,
       pressure,
       lastUpdated,
@@ -84,6 +90,7 @@ class Weather extends Equatable {
     double? temp,
     double? tempMin,
     double? tempMax,
+    double? windSpeed,
     int? humidity,
     int? pressure,
     DateTime? lastUpdated,
@@ -96,6 +103,7 @@ class Weather extends Equatable {
       temp: temp ?? this.temp,
       tempMin: tempMin ?? this.tempMin,
       tempMax: tempMax ?? this.tempMax,
+      windSpeed: windSpeed ?? this.windSpeed,
       humidity: humidity ?? this.humidity,
       pressure: pressure ?? this.pressure,
       lastUpdated: lastUpdated ?? this.lastUpdated,

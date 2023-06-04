@@ -195,6 +195,23 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
+                      'Wind Speed : ',
+                      textAlign: TextAlign.start,
+                    ),
+                    Text(
+                      '${state.weather.windSpeed}',
+                      textAlign: TextAlign.start,
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(bottom: 5),
+                width: double.infinity,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
                       'Pressure : ',
                       textAlign: TextAlign.start,
                     ),
